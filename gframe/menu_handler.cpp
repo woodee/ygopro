@@ -8,6 +8,8 @@
 #include "image_manager.h"
 #include "game.h"
 
+#define WINVER 0x0501
+
 namespace ygo {
 
 bool MenuHandler::OnEvent(const irr::SEvent& event) {
