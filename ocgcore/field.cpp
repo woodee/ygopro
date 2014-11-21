@@ -1427,8 +1427,8 @@ void field::CheckCounter(card* pcard, int32 counter_type, int32 playerid) {
 						(counter_type == 2) ? core.normalsummon_counter :
 						(counter_type == 3) ? core.spsummon_counter :
 						(counter_type == 4) ? core.flipsummon_counter : core.attack_counter;
-	for(auto& iter : counter_map) {
-		auto& info = iter.second;
+	for(auto iter = counter_map.begin();iter!=counter_map.end();++iter) {
+		auto& info = iter->second;
 		if(info.first) {
 			pduel->lua->add_param(pcard, PARAM_TYPE_CARD);
 			if(!pduel->lua->check_condition(info.first, 1)) {
