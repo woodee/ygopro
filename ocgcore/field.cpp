@@ -1716,25 +1716,25 @@ int32 field::check_xyz_material(card* scard, int32 findex, int32 lv, int32 min, 
 	if(mg) {
 		card_vector cv;
 		core.xmaterial_lst.clear();
-		for (auto cit : mg->container) {
-			if(cit->is_xyz_level(scard, lv) && (findex == 0 || pduel->lua->check_matching(cit, findex, 0)))
-				cv.push_back(cit);
+		for (auto cit = mg->container.begin();cit!=mg->container.end();++cit) {
+			if((*cit)->is_xyz_level(scard, lv) && (findex == 0 || pduel->lua->check_matching(*cit, findex, 0)))
+				cv.push_back(*cit);
 		}
 		if(core.global_flag & GLOBALFLAG_XMAT_COUNT_LIMIT) {
-			for(auto cit : cv) {
-				effect* peffect = cit->is_affected_by_effect(EFFECT_XMAT_COUNT_LIMIT);
+			for(auto cit = cv.begin();cit!=cv.end();++cit) {
+				effect* peffect = (*cit)->is_affected_by_effect(EFFECT_XMAT_COUNT_LIMIT);
 				if(peffect) {
 					int32 v = peffect->get_value();
-					core.xmaterial_lst.insert(std::make_pair(v, cit));
+					core.xmaterial_lst.insert(std::make_pair(v, *cit));
 				} else
-					core.xmaterial_lst.insert(std::make_pair(0, cit));
+					core.xmaterial_lst.insert(std::make_pair(0, *cit));
 			}
 			auto iter = core.xmaterial_lst.begin();
 			while((iter != core.xmaterial_lst.end()) && ((iter->first > core.xmaterial_lst.size()) || (iter->first > max)))
 				core.xmaterial_lst.erase(iter++);
 		} else {
-			for(auto cit : cv)
-				core.xmaterial_lst.insert(std::make_pair(0, cit));
+			for(auto cit = cv.begin();cit!=cv.end();++cit)
+				core.xmaterial_lst.insert(std::make_pair(0, *cit));
 		}
 	} else {
 		get_xyz_material(scard, findex, lv, max);
